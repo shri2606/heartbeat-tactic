@@ -13,25 +13,25 @@ public class WearableHealthTracker {
             Socket socket = new Socket(HeartbeatConstants.SERVER_HOST, HeartbeatConstants.SERVER_PORT);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-            // Create a random generator for simulating failures
+            // Random generator for simulating failures
             Random random = new Random();
 
             while (true) {
                 // Simulate random failure with a certain probability
                 if (random.nextDouble() < HeartbeatConstants.FAILURE_PROBABILITY) {
                     System.out.println("Wearable device: Simulating random failure...");
-                    break; // Simulate device failure by stopping heartbeats
+                    break; 
                 }
 
                 // Send heartbeat
                 out.println("Heartbeat from wearable device");
                 System.out.println("Wearable device: Heartbeat sent");
 
-                // Wait for the next heartbeat interval
+                // Waiting for next heartbeat interval
                 Thread.sleep(HeartbeatConstants.HEARTBEAT_INTERVAL);
             }
 
-            // Close the socket (simulates the device stopping)
+            // Closing the socket to simulate the device stopping
             socket.close();
 
         } catch (Exception e) {
