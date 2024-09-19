@@ -1,12 +1,10 @@
 package Server;
 
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Date;
 import java.util.logging.Logger;
 import Utils.HeartbeatConstants;
 
@@ -35,7 +33,7 @@ public class HeartbeatMonitor {
                     // Check if heartbeat timeout is exceeded
                     if ((System.currentTimeMillis() - lastHeartbeatTime) > HeartbeatConstants.HEARTBEAT_TIMEOUT) {
                         logger.warning("No heartbeat received within " + HeartbeatConstants.HEARTBEAT_TIMEOUT + " ms. Device failure detected.");
-                        logFailure();
+                        notifyFaultHandler("Device failure detected"); // Notify fault handler
                         break; // Stop monitoring this device after failure
                     }
 
@@ -47,12 +45,12 @@ public class HeartbeatMonitor {
         }
     }
 
-    // Log the device failure to the log file
-    private static void logFailure() {
-        try (FileWriter fw = new FileWriter(HeartbeatConstants.LOG_FILE, true)) {  // true to append to file
-            fw.write("Device failure detected at: " + new Date() + "\n");
-            System.out.println("Failure logged to: " + HeartbeatConstants.LOG_FILE);
-        } catch (IOException e) {
+    // Notify the fault handler about the failure
+    private static void notifyFaultHandler(String failureMessage) {
+        try (Socket socket = new Socket(HeartbeatConstants.FAULT_HANDLER_HOST, HeartbeatConstants.FAULT_HANDLER_PORT)) {
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println(failureMessage); // Send failure message to fault handler
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

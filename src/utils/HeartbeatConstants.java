@@ -10,4 +10,8 @@ public class HeartbeatConstants {
     public static final double FAILURE_PROBABILITY = 0.1; // 10% chance of failure per heartbeat
 
     public static final String LOG_FILE = "./src/Logger/failure_log.txt"; // Log file location
+
+    // Fault handler settings
+    public static final String FAULT_HANDLER_HOST = "localhost";
+    public static final int FAULT_HANDLER_PORT = 8081; // Port for fault handler to listen on
 }
