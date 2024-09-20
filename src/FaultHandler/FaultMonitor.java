@@ -15,13 +15,13 @@ public class FaultMonitor {
             System.out.println("Fault handler waiting for failure notifications on port " + HeartbeatConstants.FAULT_HANDLER_PORT);
 
             while (true) {
-                Socket socket = faultHandlerSocket.accept(); // Accept connection from the receiver
+                Socket socket = faultHandlerSocket.accept(); 
                 Scanner input = new Scanner(socket.getInputStream());
 
-                // Read failure notification from the receiver
+                // Log the failure to the file
                 if (input.hasNextLine()) {
                     String failureMessage = input.nextLine();
-                    logFailure(failureMessage); // Log the failure to the file
+                    logFailure(failureMessage); 
                 }
 
                 socket.close();
