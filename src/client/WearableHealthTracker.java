@@ -13,7 +13,7 @@ public class WearableHealthTracker {
             Socket socket = new Socket(HeartbeatConstants.SERVER_HOST, HeartbeatConstants.SERVER_PORT);
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-            // Random generator for simulating failures
+            
             Random random = new Random();
 
             while (true) {
